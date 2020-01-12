@@ -1,13 +1,19 @@
-import random
-
 # Author: Nimish Mishra
 # Email: nmishra36@gatech.edu
+
+import random
 
 
 # Solves passed in sudoku board
 # Params: board: 2d list of ints representing the board
 # Return: if board is solved or not
-def solve(board):
+def solve(old_board, flag=False):
+
+    # This flag determines if the original board is to be modified or not
+    if flag:
+        board = old_board
+    else:
+        board = list(old_board)
 
     # Finds the first empty element in the board
     # Returns true if no empty elements found
@@ -38,7 +44,6 @@ def solve(board):
 # Params: x, y: ints representing the location, num: number to be put in said location, board: 2d list of ints
 # Return: True if move is valid, False otherwise
 def valid(x, y, num, board):
-
     # Used to validate the 3x3 square the index is in
     square_x = int(x / 3)
     square_y = int(y / 3)
@@ -47,6 +52,7 @@ def valid(x, y, num, board):
         if num == board[x][i] or num == board[i][y] \
                 or num == board[int(i / 3) + (square_x * 3)][(i % 3) + (square_y * 3)]:
             return False
+
     return True
 
 
@@ -72,6 +78,7 @@ def validate_board(board):
             else:
                 return False
     return True
+
 
 # Finds the first empty element in the board
 # Params: board: 2d list of ints representing the board
@@ -129,11 +136,22 @@ def remove_elements(board, elements):
         if board[xcoord][ycoord] != 0:
             board[xcoord][ycoord] = 0
             i = i + 1
+    return board
 
 
 # Uses above two methods to generate a new, random, playable sudoku board
 # Params: board: 2d list of ints representing the board, elements: num of elements to be removed
 # Return: None
-def get_new_board(new_board, elements):
-    gen_random_filled_board(new_board)
-    remove_elements(new_board, elements)
+def get_new_board(elements):
+    zero_board = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0]]
+    gen_random_filled_board(zero_board)
+    remove_elements(zero_board, elements)
+    return zero_board
